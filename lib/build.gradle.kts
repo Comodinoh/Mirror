@@ -12,7 +12,6 @@ publishing {
             from(components["java"])
         }
     }
-
 }
 
 repositories {
