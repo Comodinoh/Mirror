@@ -22,6 +22,10 @@ tasks.named("build") {
     dependsOn("runTests")
 }
 
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn("runTests")
+}
+
 tasks.register<JavaExec>("runTests") {
     group = "verifying"
 
