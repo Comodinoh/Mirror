@@ -1,3 +1,6 @@
+
+[![](https://jitpack.io/v/Comodinoh/Mirror.svg)](https://jitpack.io/#Comodinoh/Mirror)
+
 # What this is
 
 Mirror is a library that lets you swiftly and niftly bypass the Java Module System and any type of memory restriction to access the sun.misc.Unsafe Singleton instance and break the whole JVM!! (And also some QOL reflection features)
