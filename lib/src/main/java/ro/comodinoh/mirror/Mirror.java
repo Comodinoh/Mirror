@@ -1,6 +1,5 @@
 package ro.comodinoh.mirror;
 
-import org.jspecify.annotations.Nullable;
 import sun.misc.Unsafe;
 
 import java.io.File;
@@ -27,20 +26,17 @@ public final class Mirror {
 
         File tempBinary = new File(dataFolder, fileName);
 
-        if (!tempBinary.exists()) {
-
-            InputStream is = Mirror.class.getResourceAsStream("/" + fileName);
-            if (is == null) {
-                throw new IOException("Native library not found in JAR: " + fileName);
-            }
-
-            if (!dataFolder.exists()) {
-                dataFolder.mkdirs();
-            }
-
-            Files.copy(is, tempBinary.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            is.close();
+        InputStream is = Mirror.class.getResourceAsStream("/" + fileName);
+        if (is == null) {
+            throw new IOException("Native library not found in JAR: " + fileName);
         }
+
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
+        Files.copy(is, tempBinary.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        is.close();
 
 
         System.load(tempBinary.getAbsolutePath());

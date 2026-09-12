@@ -15,14 +15,28 @@ publishing {
 
 }
 
-
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    api(libs.commons.math3)
-    implementation(libs.guava)
+tasks.named("build") {
+    dependsOn("runTests")
+}
+
+tasks.register<JavaExec>("runTests") {
+    group = "verifying"
+
+    dependsOn("testClasses")
+
+    classpath = sourceSets["test"].runtimeClasspath
+
+    mainClass.set("ro.comodinoh.TestRunner")
+
+    jvmArgs("-ea")
+}
+
+tasks.named<Test>("test") {
+    failOnNoDiscoveredTests = false
 }
 
 java {
