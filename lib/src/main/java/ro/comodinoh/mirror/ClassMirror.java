@@ -2,6 +2,8 @@ package ro.comodinoh.mirror;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,6 +32,20 @@ public class ClassMirror<T> {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    /**
+     * If there are uncached fields, it loops through the class fields and computes them.
+     * Returns the computed collection of fields from the underlying Map.
+     * @return Collection of all the java Field instances
+     */
+    public Collection<Field> getFields() {
+        if (clazz.getDeclaredFields().length != fieldMap.size()) {
+            Arrays.stream(clazz.getDeclaredFields())
+                    .forEach(f -> fieldMap.putIfAbsent(f.getName(), f));
+        }
+
+        return fieldMap.values();
     }
 
     /**
