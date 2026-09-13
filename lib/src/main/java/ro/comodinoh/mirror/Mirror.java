@@ -17,6 +17,9 @@ public final class Mirror {
     private static final Map<String, ClassMirror<?>> classMap = new ConcurrentHashMap<>();
 
     public static void init(File dataFolder) throws IOException {
+        if (!dataFolder.exists()) {
+            throw new IOException("The provided file " + dataFolder.getAbsolutePath() + " does not exist");
+        }
         if(!dataFolder.isDirectory()) {
             throw new IOException("The provided file " + dataFolder.getAbsolutePath() + " is not a directory");
         }
@@ -29,10 +32,6 @@ public final class Mirror {
         InputStream is = Mirror.class.getResourceAsStream("/" + fileName);
         if (is == null) {
             throw new IOException("Native library not found in JAR: " + fileName);
-        }
-
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs();
         }
 
         Files.copy(is, tempBinary.toPath(), StandardCopyOption.REPLACE_EXISTING);
